@@ -17,7 +17,7 @@ import GoogleLogin from "./GoogleLogin";
 import FormPasswordField from "../../../components/PasswordInput";
 
 const SignupPage = () => {
-  const { goToLogin } = useAppNavigate();
+  const {  goHome } = useAppNavigate();
   const [errors, setErrors] = useState<{ message: string; field?: string }[] | null>(null);
 
   const { mutateAsync: signup, isPending } = useSignupUser();
@@ -26,7 +26,7 @@ const SignupPage = () => {
     toast.promise(
       signup(data, {
         onSuccess: () => {
-          goToLogin();
+          goHome();
         },
         onError: (error) => {
           setErrors(error.response?.data.errors || null);

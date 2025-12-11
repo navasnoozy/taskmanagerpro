@@ -25,7 +25,7 @@ export const auth = betterAuth({
       prompt: "select_account",
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: "http://millionsclub.com/api/auth/callback/google",
+      redirectURI: "http://localhost:3000/api/auth/callback/google",
     },
   },
 
@@ -42,7 +42,6 @@ export const auth = betterAuth({
 
 
 
-  // Add hooks for post-authentication actions
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
       if (ctx.path.startsWith("/callback")) {
@@ -62,7 +61,6 @@ export const auth = betterAuth({
 
             resetBetterAuthCookes(ctx);
 
-            // Set custom cookie with JWT
             ctx.setCookie("refresh_token", jwt_refresh_token, {
               ...cookieOptions,
             });
