@@ -18,7 +18,7 @@ import FormPasswordField from "../../../components/PasswordInput";
 
 const SignupPage = () => {
   const { goToLogin } = useAppNavigate();
-  const [errors, setErrors] = useState<{ message: string; field: string }[] | null>(null);
+  const [errors, setErrors] = useState<{ message: string; field?: string }[] | null>(null);
 
   const { mutateAsync: signup, isPending } = useSignupUser();
 
@@ -29,7 +29,7 @@ const SignupPage = () => {
           goToLogin();
         },
         onError: (error) => {
-          setErrors(error.response?.data.errors || []);
+          setErrors(error.response?.data.errors || null);
         },
       }),
       {
