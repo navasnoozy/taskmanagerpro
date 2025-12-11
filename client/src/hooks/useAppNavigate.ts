@@ -8,7 +8,6 @@ const useAppNavigate = () => {
     goToProfile: () => navigate("/profile"),
     goToLogin: () => navigate("/signin"),
     goToSignup: () => navigate("/signup"),
-    goToVerifyPage:(email?:string)=> navigate(`/verification?email=${email}`)
   };
 };
 

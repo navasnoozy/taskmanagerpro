@@ -17,7 +17,7 @@ import GoogleLogin from "./GoogleLogin";
 import FormPasswordField from "../../../components/PasswordInput";
 
 const SignupPage = () => {
-  const { goToVerifyPage } = useAppNavigate();
+  const { goToLogin } = useAppNavigate();
   const [errors, setErrors] = useState<{ message: string; field: string }[] | null>(null);
 
   const { mutateAsync: signup, isPending } = useSignupUser();
@@ -25,8 +25,8 @@ const SignupPage = () => {
   const handleSignup = (data: SignupInput) => {
     toast.promise(
       signup(data, {
-        onSuccess: (res) => {
-          goToVerifyPage(res.data?.email);
+        onSuccess: () => {
+          goToLogin();
         },
         onError: (error) => {
           setErrors(error.response?.data.errors || []);
@@ -34,7 +34,7 @@ const SignupPage = () => {
       }),
       {
         pending: "Creating account...",
-        success: "Account has been created",
+        success: "Account created! Please sign in.",
         error: "Failed to create account",
       }
     );

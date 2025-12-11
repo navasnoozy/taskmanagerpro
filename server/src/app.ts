@@ -20,7 +20,8 @@ export const createApp = async () => {
   app.use(
     cors({
       origin: [
-        "http://localhost:3000", // your React app
+        "http://localhost:3000", // your React app (production)
+        "http://localhost:5173", // Vite dev server
       ],
       credentials: true, // allows cookies and authorization headers
     })
