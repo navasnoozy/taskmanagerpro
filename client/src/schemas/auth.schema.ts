@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 
 export const signinSchema = z.object({
   email: z.email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(1, "Password is required"),
 });
 
 export const signupSchema = z
@@ -11,11 +11,11 @@ export const signupSchema = z
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.email("Invalid email address"),
     password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string().min(1, "Confirm password is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
     path: ["confirmPassword"],
+    message: "Passwords do not match",
   });
 
 export type SigninInput = z.infer<typeof signinSchema>;

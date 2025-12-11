@@ -5,9 +5,9 @@ import type { AxiosError } from "axios";
 
 interface ApiResponse {
   success: boolean;
-  message: string;
+  message?: string;
   data?: { email: string };
-  errors: { message: string; field: string }[];
+  errors?: { message: string; field?: string }[];
 }
 
 const useSignupUser = () => {

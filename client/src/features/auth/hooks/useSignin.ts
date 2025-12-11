@@ -5,9 +5,9 @@ import type { SigninInput } from "../../../schemas/auth.schema";
 
 interface ApiResponse {
   success: boolean;
-  messsage: string;
-  data?: { email: string; accessToken: string };
-  errors: { message: string; field: string }[];
+  message?: string;
+  data?: { accessToken: string };
+  errors?: { message: string; field?: string }[];
 }
 
 const useSigninUser = () => {
