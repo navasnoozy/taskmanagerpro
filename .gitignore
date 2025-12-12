@@ -2,3 +2,6 @@
 .nodemodule
 nodemodule
 server/.env
+dist
+/dist
+server/dist
