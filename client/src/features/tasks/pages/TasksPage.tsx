@@ -1,19 +1,38 @@
-import { Add, FilterList, Search, Sort } from "@mui/icons-material";
-import { Box, Chip, CircularProgress, Container, Fab, FormControl, Grid, IconButton, InputBase, Menu, MenuItem, Paper, Stack, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { Box, CircularProgress, Container, Fab, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
+import type { SelectChangeEvent } from "@mui/material/Select";
 import type { SortBy, TaskStatus } from "../../../store";
 import { closeForm, openForm, setFilterStatus, setSearchQuery, setSortBy, useAppDispatch, useAppSelector } from "../../../store";
+import Dropdown from "../../../components/Dropdown";
+import Paginations from "../../../components/Pagination";
+import SearchBar from "../../../components/SearchBar";
 import TaskForm from "../components/TaskForm";
 import TaskItem from "../components/TaskItem";
 import useGetTasks from "../hooks/useGetTasks";
+
+const ITEMS_PER_PAGE = 5;
+
+const statusOptions = [
+    { label: "All Status", value: "all" },
+    { label: "Pending", value: "pending" },
+    { label: "In Progress", value: "in-progress" },
+    { label: "Completed", value: "completed" },
+];
+
+const sortOptions = [
+    { label: "Newest First", value: "createdAt" },
+    { label: "Title", value: "title" },
+    { label: "Due Date", value: "dueDate" },
+    { label: "Priority", value: "priority" },
+];
 
 const TasksPage = () => {
     const dispatch = useAppDispatch();
     const { isFormOpen, selectedTask, searchQuery, filterStatus, sortBy } = useAppSelector((state) => state.tasks);
     const { data: tasks, isLoading, error } = useGetTasks();
     
-    const [filterAnchor, setFilterAnchor] = useState<null | HTMLElement>(null);
-    const [sortAnchor, setSortAnchor] = useState<null | HTMLElement>(null);
+    const [page, setPage] = useState(1);
 
     const handleCreate = () => {
         dispatch(openForm(undefined));
@@ -27,18 +46,22 @@ const TasksPage = () => {
         dispatch(closeForm());
     };
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setSearchQuery(e.target.value));
+    const handleSearch = (value: string) => {
+        dispatch(setSearchQuery(value));
+        setPage(1);
     };
 
-    const handleFilterChange = (status: TaskStatus) => {
-        dispatch(setFilterStatus(status));
-        setFilterAnchor(null);
+    const handleFilterChange = (event: SelectChangeEvent<string>) => {
+        dispatch(setFilterStatus(event.target.value as TaskStatus));
+        setPage(1);
     };
 
-    const handleSortChange = (sort: SortBy) => {
-        dispatch(setSortBy(sort));
-        setSortAnchor(null);
+    const handleSortChange = (event: SelectChangeEvent<string>) => {
+        dispatch(setSortBy(event.target.value as SortBy));
+    };
+
+    const handlePageChange = (_key: string, value: string) => {
+        setPage(Number(value));
     };
 
     let filteredTasks = tasks?.filter(task => {
@@ -66,6 +89,10 @@ const TasksPage = () => {
         }
     });
 
+    const totalItems = filteredTasks.length;
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const paginatedTasks = filteredTasks.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
     if (isLoading) return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}><CircularProgress /></Box>;
     if (error) return <Container sx={{ mt: 4 }}><Typography color="error" textAlign="center">Error loading tasks: {error.message}</Typography></Container>;
 
@@ -82,66 +109,32 @@ const TasksPage = () => {
                 </Fab>
             </Box>
 
-            <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: 'wrap', gap: 1, alignItems: 'center' }}>
-                <Paper
-                    elevation={0}
-                    sx={{ 
-                        p: '2px 4px', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        width: { xs: '100%', sm: 300 }, 
-                        border: '1px solid', 
-                        borderColor: 'divider',
-                        borderRadius: 2,
-                    }}
-                >
-                    <InputBase
-                        sx={{ ml: 1, flex: 1 }}
-                        placeholder="Search tasks..."
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                    />
-                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                        <Search />
-                    </IconButton>
-                </Paper>
+            <Stack direction="row" spacing={2} sx={{ mb: 3, flexWrap: 'wrap', gap: 2, alignItems: 'center' }}>
+                <SearchBar 
+                    onSearch={handleSearch} 
+                    placeholder="Search tasks..." 
+                    defaultValue={searchQuery}
+                />
 
-                <FormControl size="small">
-                    <Chip
-                        icon={<FilterList />}
-                        label={filterStatus === 'all' ? 'All Status' : filterStatus}
-                        onClick={(e) => setFilterAnchor(e.currentTarget)}
-                        variant={filterStatus === 'all' ? 'outlined' : 'filled'}
-                        color={filterStatus === 'all' ? 'default' : 'primary'}
-                        sx={{ textTransform: 'capitalize' }}
-                    />
-                    <Menu anchorEl={filterAnchor} open={Boolean(filterAnchor)} onClose={() => setFilterAnchor(null)}>
-                        <MenuItem onClick={() => handleFilterChange('all')} selected={filterStatus === 'all'}>All</MenuItem>
-                        <MenuItem onClick={() => handleFilterChange('pending')} selected={filterStatus === 'pending'}>Pending</MenuItem>
-                        <MenuItem onClick={() => handleFilterChange('in-progress')} selected={filterStatus === 'in-progress'}>In Progress</MenuItem>
-                        <MenuItem onClick={() => handleFilterChange('completed')} selected={filterStatus === 'completed'}>Completed</MenuItem>
-                    </Menu>
-                </FormControl>
+                <Dropdown
+                    value={filterStatus}
+                    onChange={handleFilterChange}
+                    options={statusOptions}
+                    label="Status"
+                    width={150}
+                />
 
-                <FormControl size="small">
-                    <Chip
-                        icon={<Sort />}
-                        label={sortBy === 'createdAt' ? 'Newest' : sortBy === 'title' ? 'Title' : sortBy === 'dueDate' ? 'Due Date' : 'Priority'}
-                        onClick={(e) => setSortAnchor(e.currentTarget)}
-                        variant="outlined"
-                        sx={{ textTransform: 'capitalize' }}
-                    />
-                    <Menu anchorEl={sortAnchor} open={Boolean(sortAnchor)} onClose={() => setSortAnchor(null)}>
-                        <MenuItem onClick={() => handleSortChange('createdAt')} selected={sortBy === 'createdAt'}>Newest First</MenuItem>
-                        <MenuItem onClick={() => handleSortChange('title')} selected={sortBy === 'title'}>Title</MenuItem>
-                        <MenuItem onClick={() => handleSortChange('dueDate')} selected={sortBy === 'dueDate'}>Due Date</MenuItem>
-                        <MenuItem onClick={() => handleSortChange('priority')} selected={sortBy === 'priority'}>Priority</MenuItem>
-                    </Menu>
-                </FormControl>
+                <Dropdown
+                    value={sortBy}
+                    onChange={handleSortChange}
+                    options={sortOptions}
+                    label="Sort By"
+                    width={150}
+                />
             </Stack>
 
             <Grid container spacing={2}>
-                {filteredTasks.map((task) => (
+                {paginatedTasks.map((task) => (
                     <Grid size={{ xs: 12 }} key={task._id}>
                         <TaskItem task={task} onEdit={handleEdit} />
                     </Grid>
@@ -160,6 +153,14 @@ const TasksPage = () => {
                     </Box>
                 )}
             </Grid>
+
+            {totalItems > ITEMS_PER_PAGE && (
+                <Paginations 
+                    itemCount={totalItems} 
+                    limit={ITEMS_PER_PAGE} 
+                    onChangePage={handlePageChange} 
+                />
+            )}
 
             <TaskForm open={isFormOpen} onClose={handleClose} taskToEdit={selectedTask ?? undefined} />
         </Container>

@@ -48,7 +48,7 @@ const SignupPage = () => {
           <FormInputField name="email" label={"Email"} type="email" />
           <FormPasswordField name="password" label={"Password"}/>
           <FormPasswordField name="confirmPassword" label={"ConfirmPassword"} />
-          <AppButton loading={isPending} variant="contained" type="submit">
+          <AppButton isLoading={isPending} variant="contained" type="submit">
             Signup
           </AppButton>
         </Stack>

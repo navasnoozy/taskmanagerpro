@@ -3,8 +3,9 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import GridViewIcon from '@mui/icons-material/GridView';
 import LoginIcon from '@mui/icons-material/Login';
-import { Box, Button, Grid, Paper, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, Grid, Paper, Skeleton, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
+import AppButton from '../components/AppButton';
 import useCurrentUser from '../features/auth/hooks/useCurrentUser';
 import useGetTasks from '../features/tasks/hooks/useGetTasks';
 
@@ -74,7 +75,7 @@ const HomePage = () => {
           <Typography variant="h6" color="text.secondary" textAlign="center" maxWidth="500px">
             Organize your tasks, boost your productivity, and never miss a deadline.
           </Typography>
-          <Button 
+          <AppButton 
             variant="contained" 
             size="large" 
             startIcon={<LoginIcon />}
@@ -90,7 +91,7 @@ const HomePage = () => {
             }}
           >
             Sign In to Get Started
-          </Button>
+          </AppButton>
         </Stack>
       </Box>
     );

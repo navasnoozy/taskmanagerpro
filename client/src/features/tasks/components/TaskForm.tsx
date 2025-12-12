@@ -1,8 +1,9 @@
 import { type SubmitHandler } from "react-hook-form";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { Form } from "../../../components/Form";
 import FormInputField from "../../../components/FormInputField";
 import FormDropdown from "../../../components/FormDropdown";
+import AppButton from "../../../components/AppButton";
 import { createTaskSchema, updateTaskSchema, type CreateTaskInput, type Task } from "../../../schemas/task.schema";
 import useCreateTask from "../hooks/useCreateTask";
 import useUpdateTask from "../hooks/useUpdateTask";
@@ -48,10 +49,10 @@ const TaskFormContent = ({ taskToEdit, onCancel, isPending }: TaskFormContentPro
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onCancel} color="inherit" disabled={isPending}>Cancel</Button>
-                <Button type="submit" variant="contained" color="primary" disabled={isPending}>
+                <AppButton onClick={onCancel} color="inherit" disabled={isPending}>Cancel</AppButton>
+                <AppButton type="submit" variant="contained" color="primary" isLoading={isPending}>
                     {taskToEdit ? "Update" : "Create"}
-                </Button>
+                </AppButton>
             </DialogActions>
         </>
     )

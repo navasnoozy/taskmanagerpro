@@ -1,5 +1,5 @@
 import LoginIcon from '@mui/icons-material/Login';
-import { Button, CircularProgress } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import { navlinks } from '../../config/navlinks';
 import useCurrentUser from '../../features/auth/hooks/useCurrentUser';
 import useSignout from '../../features/auth/hooks/useSignout';
+import AppButton from '../AppButton';
 import AppLink from '../CustomLink';
 
 interface UserMenuProps {
@@ -48,20 +49,17 @@ export const UserMenu: React.FC<UserMenuProps> = ({
 
   if (!currentUser) {
     return (
-      <Button
+      <AppButton
         variant="contained"
         size="small"
         startIcon={<LoginIcon />}
-        onClick={() => navigate('/signin')}
-        sx={{ 
-          ml: 1,
-          px: 2,
-        }}
+        to="/signin"
+        sx={{ ml: 1, px: 2 }}
       >
         <Typography sx={{ display: { xs: 'none', sm: 'inline-block' } }}>
           Login
         </Typography>
-      </Button>
+      </AppButton>
     );
   }
 

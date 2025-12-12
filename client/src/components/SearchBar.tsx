@@ -1,18 +1,21 @@
 import { Box, debounce, InputBase } from "@mui/material";
+import { Search } from "@mui/icons-material";
 import { useMemo, useState, type ChangeEvent } from "react";
 
 interface SearchBarProps {
   onSearch: (value: string) => void;
+  placeholder?: string;
+  defaultValue?: string;
 }
 
-const SearchBar = ({ onSearch }: SearchBarProps) => {
-  const [searchQuery, setSearchQuery] = useState<string>();
+const SearchBar = ({ onSearch, placeholder = "Search...", defaultValue = "" }: SearchBarProps) => {
+  const [searchQuery, setSearchQuery] = useState<string>(defaultValue);
 
   const debouncedUpdate = useMemo(() => {
     return debounce((value: string) => {
       onSearch(value);
-    }, 500);
-  }, [searchQuery]);
+    }, 300);
+  }, [onSearch]);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -23,16 +26,23 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
   return (
     <Box
       sx={{
-        p: "2px 4px",
+        p: "4px 12px",
         border: "1px solid",
         borderColor: "divider",
-        borderRadius: 50,
+        borderRadius: 2,
         display: "flex",
         alignItems: "center",
-        maxWidth: 500,
+        width: { xs: '100%', sm: 300 },
       }}
     >
-      <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search users..." value={searchQuery} onChange={handleOnChange} inputProps={{ "aria-label": "search-users" }} />
+      <InputBase 
+        sx={{ ml: 1, flex: 1 }} 
+        placeholder={placeholder} 
+        value={searchQuery} 
+        onChange={handleOnChange} 
+        inputProps={{ "aria-label": "search" }} 
+      />
+      <Search sx={{ color: 'text.secondary' }} />
     </Box>
   );
 };

@@ -11,6 +11,7 @@ type DropdownProps = {
   onChange: (event: SelectChangeEvent<string>) => void;
   options: DropdownOption[];
   label?: string;
+  placeholder?: string;
   disabled?: boolean;
   width?: string | number;
   error?: boolean;
@@ -22,6 +23,7 @@ const Dropdown = ({
   onChange,
   options,
   label,
+  placeholder,
   width,
   disabled,
   error,
@@ -32,18 +34,20 @@ const Dropdown = ({
     <FormControl error={error} sx={{ width: width }}>
       <Select
         sx={{
-          borderRadius: 50,
+          borderRadius: 2,
           width: "100%",
-          fontSize: "15px",
-          border: "1px solid",
-          borderColor: error ? "error.main" : "#9b9b9b4a",
-          height: 40,
-          pr: 0.5,
-          "& fieldset": { border: "none" },
-          "&.Mui-focused": {
-            borderColor: error ? "error.main" : "rgba(186, 97, 42, 1)",
+          fontSize: "0.875rem",
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: error ? "error.main" : "divider",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: error ? "error.main" : "primary.main",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: error ? "error.main" : "primary.main",
           },
         }}
+        size="small"
         value={value}
         onChange={onChange}
         displayEmpty
@@ -51,17 +55,19 @@ const Dropdown = ({
         inputProps={{ "aria-label": label || "select" }}
         {...otherProps}
       >
-        <MenuItem sx={{ fontSize: "15px" }} value="" disabled>
-          {label || "Select"}
-        </MenuItem>
+        {placeholder && (
+          <MenuItem value="" disabled>
+            {placeholder}
+          </MenuItem>
+        )}
         {options.map((opt) => (
-          <MenuItem key={opt.value} value={opt.value} sx={{ fontSize: "15px" }}>
+          <MenuItem key={opt.value} value={opt.value}>
             {opt.label}
           </MenuItem>
         ))}
       </Select>
       {helperText && (
-        <FormHelperText sx={{ ml: 1, fontSize: "12px" }}>
+        <FormHelperText sx={{ ml: 1 }}>
           {helperText}
         </FormHelperText>
       )}

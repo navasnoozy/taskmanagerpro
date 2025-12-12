@@ -47,7 +47,7 @@ const SigninPage = () => {
         <Stack spacing={3}>
           <FormInputField name="email" label={"Email"} type="email" />
           <FormPasswordField name="password" label={"Password"}   />
-          <AppButton loading={isPending} variant="contained" type="submit">
+          <AppButton isLoading={isPending} variant="contained" type="submit">
             Signin
           </AppButton>
         </Stack>

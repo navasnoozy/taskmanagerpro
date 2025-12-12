@@ -1,4 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import AppButton from "./AppButton";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -20,12 +21,12 @@ const ConfirmDialog = ({ open, onClose, onConfirm, title, content, confirmText =
         <DialogContentText>{content}</DialogContentText>
       </DialogContent>
       <DialogActions sx={{ padding: 2 }}>
-        <Button onClick={onClose} color="inherit" disabled={isLoading}>
+        <AppButton onClick={onClose} color="inherit" disabled={isLoading}>
           {cancelText}
-        </Button>
-        <Button onClick={onConfirm} variant="contained" color={type === "danger" ? "error" : "primary"} disabled={isLoading} autoFocus>
-          {isLoading ? "Processing..." : confirmText}
-        </Button>
+        </AppButton>
+        <AppButton onClick={onConfirm} variant="contained" color={type === "danger" ? "error" : "primary"} isLoading={isLoading}>
+          {confirmText}
+        </AppButton>
       </DialogActions>
     </Dialog>
   );
