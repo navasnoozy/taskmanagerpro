@@ -23,6 +23,7 @@ export const createApp = async () => {
       origin: [
         "http://localhost:3000",
         "http://localhost:5173",
+        "http://localhost:4173",
       ],
       credentials: true,
     })
