@@ -1,9 +1,8 @@
 import { createTheme, type Shadows } from "@mui/material";
 
-// Get default shadows first
 const defaultTheme = createTheme();
 const customShadows = [...defaultTheme.shadows] as Shadows;
-customShadows[1] = "1px 2px 4px rgba(88, 186, 42, 0.93)"; // Paper default elevation
+customShadows[1] = "1px 2px 4px rgba(88, 186, 42, 0.93)"; 
 
 export const theme = createTheme({
   defaultColorScheme: "light",
@@ -11,20 +10,30 @@ export const theme = createTheme({
     light: {
       palette: {
         primary: {
-          main: "#ba612aff",
-          
+          main: "#FF6B00", 
+          contrastText: "#ffffff",
+        },
+        secondary: {
+          main: "#2A3EB1", 
         },
         background: {
-          default: "#FCFAF8",
-          paper: "#ffffff",
+          default: "#F4F6F8",
+          paper: "#FFFFFF",
         },
       },
     },
     dark: {
       palette: {
         primary: {
-          // main: "#86624B",
-          main: "#bb510fff",
+          main: "#FF8C33", 
+          contrastText: "#000000",
+        },
+        secondary: {
+          main: "#5C73F2", 
+        },
+        background: {
+          default: "#0A1929", 
+          paper: "#132F4C",
         },
       },
     },
@@ -32,7 +41,6 @@ export const theme = createTheme({
   typography: {
     fontFamily: ["Roboto", '"Helvetica Neue"', "Arial", "sans-serif"].join(","),
   },
-  //  shadows: customShadows,
 
   shape: {
     borderRadius: 4,
@@ -42,14 +50,14 @@ export const theme = createTheme({
       styleOverrides:{
         root:{
             "& .MuiOutlinedInput-input": {
-              padding: "7px 10px", // Reduces height to approx 32px-34px
-              fontSize: "0.875rem", // Adjust font size for compact look
+              padding: "7px 10px", 
+              fontSize: "0.875rem", 
             },
-            // 2. Adjust label position to center it vertically given the new padding
+
             "& .MuiInputLabel-root": {
-              transform: "translate(14px, 7px) scale(1)", // Start position
+              transform: "translate(14px, 7px) scale(1)", 
               "&.Mui-focused, &.MuiFormLabel-filled": {
-                transform: "translate(14px, -9px) scale(0.75)", // Floating position
+                transform: "translate(14px, -9px) scale(0.75)", 
               },
             },
         }

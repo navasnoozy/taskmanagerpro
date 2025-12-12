@@ -5,7 +5,7 @@ export const createTaskSchema = z.object({
   description: z.string().optional(),
   status: z.enum(["pending", "in-progress", "completed"]).optional(),
   priority: z.enum(["low", "medium", "high"]).optional(),
-  dueDate: z.iso.datetime().optional(),
+  dueDate: z.string().optional(),
 });
 
 export const updateTaskSchema = createTaskSchema.partial();

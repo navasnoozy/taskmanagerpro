@@ -6,6 +6,7 @@ import express from "express";
 import { currentUser } from "./middlewares/current-user";
 import { errorHandler } from "./middlewares/errorHandler";
 import { authRoutes } from "./routes/auth.routes";
+import { taskRoutes } from "./routes/task.routes";
 import { NotFoundError } from "./errors";
 
 dotenv.config();
@@ -35,6 +36,7 @@ export const createApp = async () => {
   app.set("trust proxy", true);
 
   app.use("/api/users", authRoutes);
+  app.use("/api/tasks", taskRoutes);
 
   app.all("*path", async () => {
     throw new NotFoundError();
