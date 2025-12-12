@@ -1,9 +1,10 @@
 import { Add } from "@mui/icons-material";
-import { Box, CircularProgress, Container, Fab, Grid, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import type { SortBy, TaskStatus } from "../../../store";
 import { closeForm, openForm, setFilterStatus, setSearchQuery, setSortBy, useAppDispatch, useAppSelector } from "../../../store";
+import AppButton from "../../../components/AppButton";
 import Dropdown from "../../../components/Dropdown";
 import Paginations from "../../../components/Pagination";
 import SearchBar from "../../../components/SearchBar";
@@ -103,10 +104,22 @@ const TasksPage = () => {
                     My Tasks
                 </Typography>
 
-                <Fab color="primary" aria-label="add" onClick={handleCreate} size="medium" variant="extended">
-                    <Add sx={{ mr: 1 }} />
-                    New Task
-                </Fab>
+                <AppButton
+                    onClick={handleCreate}
+                    variant="contained"
+                    sx={{ 
+                        position: { xs: 'fixed', sm: 'static' }, 
+                        right: { xs: 20 }, 
+                        bottom: { xs: 30 },
+                        zIndex: 1000,
+                        boxShadow: { xs: 3, sm: 0 },
+                    }}
+                >
+                    <Add />
+                    <Box component="span" sx={{ display: { xs: 'none', sm: 'block' }, ml: 1 }}>
+                        New Task
+                    </Box>
+                </AppButton>
             </Box>
 
             <Stack direction="row" spacing={2} sx={{ mb: 3, flexWrap: 'wrap', gap: 2, alignItems: 'center' }}>
