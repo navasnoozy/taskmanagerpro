@@ -1,6 +1,5 @@
-// src/components/navbar/UserMenu.tsx
 import LoginIcon from '@mui/icons-material/Login';
-import { CircularProgress, Stack } from '@mui/material';
+import { CircularProgress, Stack, Button } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -18,9 +17,7 @@ interface UserMenuProps {
   open: boolean;
   onOpen: (e: React.MouseEvent<HTMLElement>) => void;
   onClose: () => void;
-  // Optional: Allow customizing menu links for different contexts
   menuLinks?: { label: string; to: string }[];
-  // Optional: Customize redirect after logout
   logoutRedirectPath?: string;
 }
 
@@ -51,14 +48,20 @@ export const UserMenu: React.FC<UserMenuProps> = ({
 
   if (!currentUser) {
     return (
-      <Stack direction={'row'} gap={1} alignItems="center">
-        <AppLink color="white" to={'/signin'}>
-          <>
-            <LoginIcon  />
-            <Typography sx={{ display: { xs: 'none', md: 'inline-block' } }}>Login</Typography>
-          </>
-        </AppLink>
-      </Stack>
+      <Button
+        variant="contained"
+        size="small"
+        startIcon={<LoginIcon />}
+        onClick={() => navigate('/signin')}
+        sx={{ 
+          ml: 1,
+          px: 2,
+        }}
+      >
+        <Typography sx={{ display: { xs: 'none', sm: 'inline-block' } }}>
+          Login
+        </Typography>
+      </Button>
     );
   }
 
@@ -66,7 +69,16 @@ export const UserMenu: React.FC<UserMenuProps> = ({
     <>
       <Tooltip title="Open settings">
         <IconButton onClick={onOpen} sx={{ p: 0 }}>
-          <Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
+          <Avatar 
+            alt={currentUser.name || 'User'} 
+            sx={{ 
+              bgcolor: 'primary.main',
+              width: 36,
+              height: 36,
+            }}
+          >
+            {(currentUser.name || currentUser.email || 'U')[0].toUpperCase()}
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu
@@ -80,16 +92,16 @@ export const UserMenu: React.FC<UserMenuProps> = ({
       >
         {menuLinks.map((item) => (
           <MenuItem key={item.label} onClick={onClose}>
-            <AppLink width={100} sx={{ fontWeight: 'bold', fontSize: 20, textWrap: 'nowrap' }} to={item.to}>
+            <AppLink width={100} sx={{ fontWeight: 500, fontSize: 16 }} to={item.to}>
               {item.label}
             </AppLink>
           </MenuItem>
         ))}
         <MenuItem onClick={handleSignout}>
-          <Typography color="primary" sx={{ fontWeight: 'bold', fontSize: 20, textWrap: 'nowrap' }}>
+          <Typography color="error" sx={{ fontWeight: 500, fontSize: 16 }}>
             Logout
           </Typography>
-          {isPending && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
+          {isPending && <CircularProgress sx={{ marginLeft: 1 }} size="1.2rem" />}
         </MenuItem>
       </Menu>
     </>

@@ -1,5 +1,3 @@
-//src/components/navbar/NavLinks.tsx
-
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
@@ -30,7 +28,16 @@ export const NavLinks = ({ isMobile = false, onLinkClick }: Props) => {
             onClick={onLinkClick}
             component={RouterLink}
             to={`/${page.toLowerCase()}`}
-            sx={{ my: 2, color: "white", display: "block" }}
+            sx={{ 
+              my: 2, 
+              color: "text.primary", 
+              display: "block",
+              fontWeight: 500,
+              '&:hover': {
+                color: 'primary.main',
+                backgroundColor: 'transparent',
+              }
+            }}
           >
             {page}
           </Button>

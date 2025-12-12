@@ -1,4 +1,4 @@
-//src/config/navlinks.ts
+
 
 interface NavLinks {
   pages: string[];
@@ -6,7 +6,7 @@ interface NavLinks {
 }
 
 export const navlinks: NavLinks = {
-  pages: ["TASKS", "DASHBOARD"],
+  pages: ["TASKS"],
   userMenuLinks: [
     { label: "Profile", to: "/profile" },
     { label: "Settings", to: "/settings" },
