@@ -1,13 +1,13 @@
 # Task Manager Pro
 
-A full-stack task management application with authentication and CRUD operations.
+A full-stack task management application 
 
 ## Tech Stack
 
 ### Frontend
-- **React 19** - UI library
-- **Vite** - Build tool
-- **TypeScript** - Type safety
+brary
+- **Vite with React 19 + TypeScript** - Build tool
+- **** - Type safety
 - **Material UI (MUI)** - Component library
 - **Redux Toolkit** - State management
   > Since I'm already using TanStack Query, using Redux Toolkit is redundant because TanStack Query supports caching and provides more than enough state management for this kind of app. However, Even though it is redundant,I used it for task UI state management.
@@ -21,7 +21,7 @@ A full-stack task management application with authentication and CRUD operations
 - **TypeScript** - Type safety
 - **MongoDB + Mongoose** - Database
 - **Better Auth** - OAuth authentication
-- **JWT** - Token-based auth
+- **JWT** - Token-based auth with refresh token
 - **Zod** - Schema validation
   > Since I'm not familiar with Joi or express-validator, I used Zod for validation.
 - **Bcrypt** - Password hashing
@@ -32,10 +32,21 @@ A full-stack task management application with authentication and CRUD operations
 - **Error Handling**: Used enterprise-level error handling by leveraging Zod for schema validation and type-safe error responses.
 - **Password Hashing**: Implemented password hashing in the Mongoose schema using pre-save middleware, which is a best practice for data integrity.
 
+## Architecture & Reusability
+
+### Client-Side
+- Created reusable components such as AppButton, Dropdown, CardContainer, Form, SearchBar, Pagination, and custom hooks to maintain maximum reusability.
+- Used the modern **features folder structure** for better code organization and scalability.
+- Centralized theming in `theme.ts` file for better maintainability and consistent styling across the app.
+
+### Server-Side
+- Created reusable utilities and middlewares for authentication and error handling.
+- Implemented response formatting utility for consistent API responses across all endpoints.
+
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+
+- Node.js
 - MongoDB
 
 ### Installation
