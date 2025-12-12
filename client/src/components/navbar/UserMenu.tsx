@@ -1,5 +1,5 @@
 import LoginIcon from '@mui/icons-material/Login';
-import { CircularProgress, Stack, Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';

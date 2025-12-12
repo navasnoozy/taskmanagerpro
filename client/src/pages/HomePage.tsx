@@ -1,41 +1,53 @@
-import { Box, Typography, Stack, Grid, Paper, Button } from '@mui/material';
-import GridViewIcon from '@mui/icons-material/GridView';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import PendingIcon from '@mui/icons-material/Pending';
+import GridViewIcon from '@mui/icons-material/GridView';
 import LoginIcon from '@mui/icons-material/Login';
-import useCurrentUser from '../features/auth/hooks/useCurrentUser';
+import { Box, Button, Grid, Paper, Skeleton, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
+import useCurrentUser from '../features/auth/hooks/useCurrentUser';
+import useGetTasks from '../features/tasks/hooks/useGetTasks';
 
 const HomePage = () => {
-  const { data: currentUser, isLoading } = useCurrentUser();
+  const { data: currentUser, isLoading: isUserLoading } = useCurrentUser();
+  const { data: tasks, isLoading: isTasksLoading } = useGetTasks();
   const navigate = useNavigate();
+
+  const totalTasks = tasks?.length || 0;
+  const completedTasks = tasks?.filter(t => t.status === 'completed').length || 0;
+  const pendingTasks = tasks?.filter(t => t.status === 'pending').length || 0;
+  const inProgressTasks = tasks?.filter(t => t.status === 'in-progress').length || 0;
+
+  const recentTasks = tasks
+    ?.slice()
+    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    .slice(0, 5) || [];
 
   const stats = [
     { 
       title: 'Total Tasks', 
-      value: 12, 
+      value: totalTasks, 
       icon: <AssignmentIcon fontSize="large" />,
       bgColor: 'primary.main',
       iconBg: 'rgba(99, 102, 241, 0.15)',
     },
     { 
       title: 'Completed', 
-      value: 8, 
+      value: completedTasks, 
       icon: <CheckCircleIcon fontSize="large" />,
       bgColor: 'success.main',
       iconBg: 'rgba(16, 185, 129, 0.15)',
     },
     { 
-      title: 'Pending', 
-      value: 4, 
-      icon: <PendingIcon fontSize="large" />,
+      title: 'In Progress', 
+      value: inProgressTasks, 
+      icon: <AccessTimeIcon fontSize="large" />,
       bgColor: 'warning.main',
       iconBg: 'rgba(245, 158, 11, 0.15)',
     },
   ];
 
-  if (isLoading) {
+  if (isUserLoading) {
     return null;
   }
 
@@ -124,9 +136,13 @@ const HomePage = () => {
                   <Typography variant="body2" color="text.secondary" gutterBottom fontWeight={500}>
                     {stat.title}
                   </Typography>
-                  <Typography variant="h3" fontWeight="bold">
-                    {stat.value}
-                  </Typography>
+                  {isTasksLoading ? (
+                    <Skeleton width={60} height={50} />
+                  ) : (
+                    <Typography variant="h3" fontWeight="bold">
+                      {stat.value}
+                    </Typography>
+                  )}
                 </Box>
                 <Box 
                   sx={{ 
@@ -151,7 +167,7 @@ const HomePage = () => {
         <Paper 
           elevation={0} 
           sx={{ 
-            p: 4, 
+            p: 3, 
             border: '1px solid', 
             borderColor: 'divider',
           }}
@@ -159,9 +175,60 @@ const HomePage = () => {
           <Typography variant="h6" gutterBottom fontWeight={600}>
             Recent Activity
           </Typography>
-          <Typography color="text.secondary">
-            No recent activity to show.
-          </Typography>
+          
+          {isTasksLoading ? (
+            <Stack spacing={2}>
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} height={40} />
+              ))}
+            </Stack>
+          ) : recentTasks.length === 0 ? (
+            <Typography color="text.secondary">
+              No tasks yet. Create your first task to get started!
+            </Typography>
+          ) : (
+            <Stack spacing={1}>
+              {recentTasks.map((task) => (
+                <Box 
+                  key={task._id}
+                  sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'space-between',
+                    py: 1.5,
+                    px: 2,
+                    borderRadius: 2,
+                    backgroundColor: 'action.hover',
+                    cursor: 'pointer',
+                    '&:hover': {
+                      backgroundColor: 'action.selected',
+                    }
+                  }}
+                  onClick={() => navigate('/tasks')}
+                >
+                  <Box display="flex" alignItems="center" gap={2}>
+                    <Box 
+                      sx={{ 
+                        width: 8, 
+                        height: 8, 
+                        borderRadius: '50%',
+                        backgroundColor: 
+                          task.status === 'completed' ? 'success.main' : 
+                          task.status === 'in-progress' ? 'warning.main' : 
+                          'text.secondary',
+                      }} 
+                    />
+                    <Typography variant="body2" fontWeight={500}>
+                      {task.title}
+                    </Typography>
+                  </Box>
+                  <Typography variant="caption" color="text.secondary">
+                    {new Date(task.updatedAt).toLocaleDateString()}
+                  </Typography>
+                </Box>
+              ))}
+            </Stack>
+          )}
         </Paper>
       </Box>
     </Box>
