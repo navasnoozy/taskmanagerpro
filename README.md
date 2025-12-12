@@ -10,7 +10,7 @@ A full-stack task management application with authentication and CRUD operations
 - **TypeScript** - Type safety
 - **Material UI (MUI)** - Component library
 - **Redux Toolkit** - State management
-  > Since I'm already using TanStack Query, using Redux Toolkit is redundant because TanStack Query supports caching and provides more than enough state management for this kind of app. However, I used it for task UI state management.
+  > Since I'm already using TanStack Query, using Redux Toolkit is redundant because TanStack Query supports caching and provides more than enough state management for this kind of app. However, Even though it is redundant,I used it for task UI state management.
 - **React Query (TanStack)** - Server state & caching
 - **React Hook Form + Zod** - Form handling & validation
 - **React Router** - Routing
