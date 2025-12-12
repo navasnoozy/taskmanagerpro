@@ -77,12 +77,11 @@ const userSchema = new Schema<UserDoc, UserModel>(
   }
 );
 
-userSchema.pre("save", async function (done) {
+userSchema.pre("save", async function () {
   if (this.isModified("password")) {
     const hashed = await hashPassword(this.get("password") as string);
     this.set("password", hashed);
   }
-  done();
 });
 
 

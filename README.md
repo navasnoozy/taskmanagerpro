@@ -251,7 +251,13 @@ Google OAuth callback (handled by Better Auth).
 
 ### Prerequisites
 - Node.js
-- MongoDB
+- MongoDB (Atlas or Replica Set)
+
+> ⚠️ **Important:** Better Auth requires MongoDB with transaction support. You must either:
+> - Use **MongoDB Atlas** (recommended), OR
+> - Convert your local MongoDB to a **Replica Set**
+>
+> Standard standalone MongoDB does not support transactions required by Better Auth.
 
 ### Installation
 
@@ -284,6 +290,15 @@ cd server && npm run dev
 # Client
 cd client && npm run dev
 ```
+
+### Better Auth Callback URL
+
+Update the `callbackURL` in `client/src/features/auth/pages/GoogleLogin.tsx` based on environment:
+
+| Environment | callbackURL |
+|-------------|-------------|
+| Development | `http://localhost:5173/oauth/callback` |
+| Production (preview) | `http://localhost:4173/oauth/callback` |
 
 ## Folder Structure
 
