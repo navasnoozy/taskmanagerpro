@@ -1,5 +1,5 @@
 import { Add } from "@mui/icons-material";
-import { Box, CircularProgress, Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import type { SortBy, TaskStatus } from "../../../store";
@@ -8,6 +8,7 @@ import AppButton from "../../../components/AppButton";
 import Dropdown from "../../../components/Dropdown";
 import Paginations from "../../../components/Pagination";
 import SearchBar from "../../../components/SearchBar";
+import TaskSkeleton from "../../../components/TaskSkeleton";
 import TaskForm from "../components/TaskForm";
 import TaskItem from "../components/TaskItem";
 import useGetTasks from "../hooks/useGetTasks";
@@ -94,7 +95,6 @@ const TasksPage = () => {
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
     const paginatedTasks = filteredTasks.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-    if (isLoading) return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}><CircularProgress /></Box>;
     if (error) return <Container sx={{ mt: 4 }}><Typography color="error" textAlign="center">Error loading tasks: {error.message}</Typography></Container>;
 
     return (
@@ -147,13 +147,17 @@ const TasksPage = () => {
             </Stack>
 
             <Grid container spacing={2}>
-                {paginatedTasks.map((task) => (
-                    <Grid size={{ xs: 12 }} key={task._id}>
-                        <TaskItem task={task} onEdit={handleEdit} />
+                {isLoading ? (
+                    <Grid size={{ xs: 12 }}>
+                        <TaskSkeleton count={3} />
                     </Grid>
-                ))}
-                
-                {filteredTasks.length === 0 && (
+                ) : paginatedTasks.length > 0 ? (
+                    paginatedTasks.map((task) => (
+                        <Grid size={{ xs: 12 }} key={task._id}>
+                            <TaskItem task={task} onEdit={handleEdit} />
+                        </Grid>
+                    ))
+                ) : (
                     <Box sx={{ width: '100%', textAlign: 'center', mt: 8, opacity: 0.7 }}>
                         <Typography variant="h6" color="text.secondary">
                             {searchQuery || filterStatus !== 'all' ? "No tasks match your filters." : "No tasks found."}
