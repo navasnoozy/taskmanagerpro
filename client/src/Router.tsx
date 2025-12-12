@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import PersistLogin from "./components/PersistLogin";
 import OauthCallback from "./features/auth/components/OauthCallback";
+import RequireUser from "./components/requireUser";
 
 import TasksPage from "./features/tasks/pages/TasksPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -41,11 +42,11 @@ const router = createBrowserRouter([
           },
           {
             path: "tasks",
-            element: <TasksPage />,
+            element: <RequireUser><TasksPage /></RequireUser>,
           },
           {
             path: "dashboard",
-            element: <DashboardPage />,
+            element: <RequireUser><DashboardPage /></RequireUser>,
           },
           {
             path: "*",
