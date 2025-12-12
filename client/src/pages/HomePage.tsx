@@ -15,7 +15,6 @@ const HomePage = () => {
 
   const totalTasks = tasks?.length || 0;
   const completedTasks = tasks?.filter(t => t.status === 'completed').length || 0;
-  const pendingTasks = tasks?.filter(t => t.status === 'pending').length || 0;
   const inProgressTasks = tasks?.filter(t => t.status === 'in-progress').length || 0;
 
   const recentTasks = tasks
