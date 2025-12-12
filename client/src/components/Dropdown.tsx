@@ -33,13 +33,13 @@ const Dropdown = ({
       <Select
         sx={{
           borderRadius: 50,
-          width: "100%", // Let FormControl control the specific width
+          width: "100%",
           fontSize: "15px",
           border: "1px solid",
           borderColor: error ? "error.main" : "#9b9b9b4a",
           height: 40,
           pr: 0.5,
-          "& fieldset": { border: "none" }, // remove default border
+          "& fieldset": { border: "none" },
           "&.Mui-focused": {
             borderColor: error ? "error.main" : "rgba(186, 97, 42, 1)",
           },

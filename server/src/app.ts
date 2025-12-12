@@ -12,7 +12,7 @@ import { NotFoundError } from "./errors";
 dotenv.config();
 
 export const createApp = async () => {
-  const { auth } = await import("./config/auth"); // lazy import AFTER DB ready
+  const { auth } = await import("./config/auth");
 
   const app = express();
 
@@ -21,14 +21,14 @@ export const createApp = async () => {
   app.use(
     cors({
       origin: [
-        "http://localhost:3000", // your React app (production)
-        "http://localhost:5173", // Vite dev server
+        "http://localhost:3000",
+        "http://localhost:5173",
       ],
-      credentials: true, // allows cookies and authorization headers
+      credentials: true,
     })
   );
 
-  app.all("/api/auth/*splat", toNodeHandler(auth)); //the "*splat" latest express js v5 syntax
+  app.all("/api/auth/*splat", toNodeHandler(auth));
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -43,8 +43,6 @@ export const createApp = async () => {
   });
 
   app.use(errorHandler);
-
-  //  seedUsers()
 
   return app;
 };

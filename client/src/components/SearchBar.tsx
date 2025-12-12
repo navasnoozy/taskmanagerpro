@@ -1,4 +1,3 @@
-//src/components/SearchBar.tsx
 import { Box, debounce, InputBase } from "@mui/material";
 import { useMemo, useState, type ChangeEvent } from "react";
 

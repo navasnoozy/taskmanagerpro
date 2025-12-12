@@ -9,7 +9,7 @@ interface ConfirmDialogProps {
   confirmText?: string;
   cancelText?: string;
   isLoading?: boolean;
-  type?: "danger" | "info" | "warning"; // To style the confirm button
+  type?: "danger" | "info" | "warning";
 }
 
 const ConfirmDialog = ({ open, onClose, onConfirm, title, content, confirmText = "Confirm", cancelText = "Cancel", isLoading = false, type = "primary" as any }: ConfirmDialogProps) => {

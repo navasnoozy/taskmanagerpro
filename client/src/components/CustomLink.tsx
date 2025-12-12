@@ -1,4 +1,3 @@
-// src/components/CustomLink.tsx
 import { Link, type LinkProps } from "react-router";
 import type { SxProps, Theme } from "@mui/material";
 

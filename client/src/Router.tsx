@@ -1,4 +1,3 @@
-// router.tsx
 import { createBrowserRouter } from "react-router";
 import ErrorBoundary from "./components/ErrorBoundary";
 import SigninPage from "./features/auth/pages/SigninPage";
@@ -11,7 +10,6 @@ import OauthCallback from "./features/auth/components/OauthCallback";
 import RequireUser from "./components/requireUser";
 
 import TasksPage from "./features/tasks/pages/TasksPage";
-import DashboardPage from "./pages/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 const router = createBrowserRouter([
@@ -43,10 +41,6 @@ const router = createBrowserRouter([
           {
             path: "tasks",
             element: <RequireUser><TasksPage /></RequireUser>,
-          },
-          {
-            path: "dashboard",
-            element: <RequireUser><DashboardPage /></RequireUser>,
           },
           {
             path: "*",

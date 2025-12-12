@@ -31,7 +31,7 @@ interface TaskFormContentProps {
   isPending: boolean;
 }
 
-const TaskFormContent = ({ taskToEdit, onCancel, isPending }: TaskFormContentProps) => { // Updated to include isPending
+const TaskFormContent = ({ taskToEdit, onCancel, isPending }: TaskFormContentProps) => {
     return (
         <>
             <DialogContent>
@@ -44,7 +44,6 @@ const TaskFormContent = ({ taskToEdit, onCancel, isPending }: TaskFormContentPro
                         <FormDropdown name="priority" label="Priority" options={priorityOptions} width="50%" />
                     </Box>
 
-                    {/* Simple date input for now, keeping it simple as requested */}
                     <FormInputField name="dueDate" label="Due Date" type="date" slotProps={{ inputLabel: { shrink: true } }} fullWidth />
                 </Box>
             </DialogContent>
@@ -65,22 +64,14 @@ const TaskForm = ({ open, onClose, taskToEdit }: TaskFormProps) => {
   const isPending = isCreating || isUpdating;
 
   const onSubmit: SubmitHandler<CreateTaskInput> = (data) => {
-    // Clean up empty due date
     if (data.dueDate === "") {
         delete data.dueDate;
     }
-    // If date is provided string, ensure ISO format if schema requires it,
-    // but schema uses z.iso.datetime(). The date input returns YYYY-MM-DD.
-    // We might need to append time or convert.
-    // Let's modify the data before sending or let the server handle it?
-    // Schema expects ISO datetime string.
-    // Schema expects ISO datetime string.
     if (data.dueDate && typeof data.dueDate === 'string' && !data.dueDate.includes('T')) {
         const date = new Date(data.dueDate);
         if(!isNaN(date.getTime())) {
              data.dueDate = date.toISOString();
         } else {
-            // Should catch this, but for now just delete if invalid to avoid crash
             delete data.dueDate;
         }
     }

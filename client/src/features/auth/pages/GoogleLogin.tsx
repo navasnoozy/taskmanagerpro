@@ -1,4 +1,3 @@
-//client/src/features/auth/pages/GoogleLogin.tsx
 import AppButton from "../../../components/AppButton";
 import GoogleGradientIcon from "../../../components/icons/GoogleGradientIcon";
 import { authClient } from "../lib/Oauth-client";

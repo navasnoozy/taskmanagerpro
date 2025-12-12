@@ -1,6 +1,5 @@
-// client/src/features/auth/pages/OauthCallback.tsx
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { useQueryClient } from "@tanstack/react-query"; // Import QueryClient
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import useAppNavigate from "../../../hooks/useAppNavigate";
 import { refreshAccessToken } from "../../../lib/axios";

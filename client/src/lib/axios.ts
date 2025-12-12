@@ -1,4 +1,3 @@
-// client/src/lib/axios.ts
 import axios from "axios";
 
 const axiosInstance = axios.create({

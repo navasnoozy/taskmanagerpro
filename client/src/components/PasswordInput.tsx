@@ -4,7 +4,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-// Omit 'type' because we control it internally
+
 type PasswordInputProps = Omit<TextFieldProps, "type"> & {
   name: string;
   label: string;

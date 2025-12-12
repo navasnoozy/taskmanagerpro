@@ -1,35 +1,34 @@
-import { useState } from "react";
 import { Container, Typography, Fab, Grid, Box, CircularProgress, Paper, InputBase, IconButton } from "@mui/material";
 import { Add, Search } from "@mui/icons-material";
 import useGetTasks from "../hooks/useGetTasks";
 import TaskItem from "../components/TaskItem";
 import TaskForm from "../components/TaskForm";
-import type { Task } from "../../../schemas/task.schema";
+import { useAppDispatch, useAppSelector, openForm, closeForm, setSearchQuery } from "../../../store";
 
 const TasksPage = () => {
+    const dispatch = useAppDispatch();
+    const { isFormOpen, selectedTask, searchQuery } = useAppSelector((state) => state.tasks);
     const { data: tasks, isLoading, error } = useGetTasks();
-    const [isFormOpen, setIsFormOpen] = useState(false);
-    const [taskToEdit, setTaskToEdit] = useState<Task | undefined>(undefined);
-    const [searchTerm, setSearchTerm] = useState("");
 
     const handleCreate = () => {
-        setTaskToEdit(undefined);
-        setIsFormOpen(true);
+        dispatch(openForm(undefined));
     };
 
-    const handleEdit = (task: Task) => {
-        setTaskToEdit(task);
-        setIsFormOpen(true);
+    const handleEdit = (task: Parameters<typeof openForm>[0]) => {
+        dispatch(openForm(task));
     };
 
     const handleClose = () => {
-        setIsFormOpen(false);
-        setTaskToEdit(undefined);
+        dispatch(closeForm());
+    };
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setSearchQuery(e.target.value));
     };
 
     const filteredTasks = tasks?.filter(task => 
-        task.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        task.description?.toLowerCase().includes(searchTerm.toLowerCase())
+        task.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        task.description?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     if (isLoading) return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}><CircularProgress /></Box>;
@@ -50,8 +49,8 @@ const TasksPage = () => {
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
                         placeholder="Search tasks..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        value={searchQuery}
+                        onChange={handleSearchChange}
                     />
                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
                         <Search />
@@ -74,16 +73,16 @@ const TasksPage = () => {
                 {!isLoading && filteredTasks?.length === 0 && (
                     <Box sx={{ width: '100%', textAlign: 'center', mt: 8, opacity: 0.7 }}>
                         <Typography variant="h6" color="text.secondary">
-                            {searchTerm ? "No tasks match your search." : "No tasks found."}
+                            {searchQuery ? "No tasks match your search." : "No tasks found."}
                         </Typography>
-                         {!searchTerm && <Typography variant="body2" color="text.secondary">
+                         {!searchQuery && <Typography variant="body2" color="text.secondary">
                             Click "New Task" to create one.
                         </Typography>}
                     </Box>
                 )}
             </Grid>
 
-            <TaskForm open={isFormOpen} onClose={handleClose} taskToEdit={taskToEdit} />
+            <TaskForm open={isFormOpen} onClose={handleClose} taskToEdit={selectedTask ?? undefined} />
         </Container>
     );
 };

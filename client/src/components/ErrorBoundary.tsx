@@ -1,4 +1,3 @@
-// components/ErrorBoundary.tsx
 import { useRouteError, isRouteErrorResponse, Link } from 'react-router';
 import { Box, Typography, Button } from '@mui/material';
 

@@ -1,4 +1,3 @@
-// ThemeToggle.tsx
 import { useColorScheme } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';

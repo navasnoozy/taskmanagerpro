@@ -1,5 +1,3 @@
-// auth/src/index.ts
-
 import { MongoDatabase } from "./config/db";
 import { createApp } from "./app";
 import { IDatabase } from "./interface/IDatabase";

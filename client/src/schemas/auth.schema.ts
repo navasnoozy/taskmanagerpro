@@ -1,4 +1,3 @@
-// src/schemas/auth.schema.ts
 import { z } from "zod/v4";
 
 export const signinSchema = z.object({

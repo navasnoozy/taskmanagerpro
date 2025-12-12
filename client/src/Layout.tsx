@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-
 import { Outlet, useNavigation } from "react-router";
 import { useIsFetching } from "@tanstack/react-query";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -12,13 +11,13 @@ const Layout = () => {
   const showPogressBar = isRouteLoading || isAuthLoading;
 
   return (
-    <Box>
-      <Box  position={"relative"} >
+    <Box sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
+      <Box position="relative">
         <NavBar />
         {showPogressBar && (
           <LinearProgress
             sx={{
-              height: "2px",
+              height: 2,
               position: "absolute",
               bottom: 0,
               left: 0,
@@ -29,7 +28,15 @@ const Layout = () => {
         )}
       </Box>
 
-      <Box paddingY={"12px"} paddingX={'20px'}>
+      <Box 
+        component="main"
+        sx={{ 
+          py: 4, 
+          px: { xs: 2, sm: 3, md: 4 },
+          maxWidth: 1200,
+          mx: 'auto',
+        }}
+      >
         <Outlet />
       </Box>
     </Box>

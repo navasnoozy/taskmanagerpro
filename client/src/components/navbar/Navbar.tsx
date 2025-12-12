@@ -1,5 +1,3 @@
-//src/components/navbar/Navbar.tsx
-
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
@@ -19,16 +17,24 @@ export const NavBar: React.FC = () => {
     setAnchorElNav(e.currentTarget);
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-    
   }
   const handleOpenUserMenu = (e: React.MouseEvent<HTMLElement>) =>
     setAnchorElUser(e.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   return (
-    <AppBar  position="static" sx={{ borderRadius:'50px'}}>
+    <AppBar 
+      position="static" 
+      elevation={0}
+      sx={{ 
+        backgroundColor: 'background.paper',
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+        color: 'text.primary',
+      }}
+    >
       <Container maxWidth={false}>
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ gap: 1 }}>
           <Logo variant="desktop" />
           <MobileMenu
             anchorElNav={anchorElNav}
@@ -40,9 +46,8 @@ export const NavBar: React.FC = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <NavLinks onLinkClick={handleCloseNavMenu} />
           </Box>
-              <ThemeToggle />
+          <ThemeToggle />
           <Box sx={{ flexGrow: 0 }}>
-        
             <UserMenu
               anchorEl={anchorElUser}
               open={Boolean(anchorElUser)}
