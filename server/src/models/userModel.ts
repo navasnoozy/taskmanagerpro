@@ -91,4 +91,4 @@ userSchema.statics.build = function (attrs: UserAttrs) {
   return new this(attrs);
 };
 
-export const User = model<UserDoc, UserModel>("User", userSchema, "user");
+export const User = model<UserDoc, UserModel>("User", userSchema);
